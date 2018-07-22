@@ -77,7 +77,9 @@ module Paperclip
 
         parameters = parameters.flatten.compact.join(" ").strip.squeeze(" ")
 
-        success = convert(parameters, :source => "#{File.expand_path(src.path)}#{'[0]' unless animated?}", :dest => File.expand_path(dst.path))
+        pdf? = @format.to_s == "pdf"
+        puts "format: " + @format.to_s
+        success = convert(parameters, :source => "#{File.expand_path(src.path)}#{'[0]' unless animated? or pdf? }", :dest => File.expand_path(dst.path))
       rescue Cocaine::ExitStatusError => e
         raise Paperclip::Error, "There was an error processing the thumbnail for #{@basename}" if @whiny
       rescue Cocaine::CommandNotFoundError => e
